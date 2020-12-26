@@ -1,1 +1,7 @@
-<p>timeline works!</p>
+<div>
+  <div>Write Something:</div>
+  <div>
+    <textarea #txtArea name="" id="" cols="30" rows="10"></textarea>
+  </div>
+  <button (click)="post(txtArea.value)">Post</button>
+</div>

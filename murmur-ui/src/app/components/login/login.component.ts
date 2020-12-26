@@ -14,7 +14,10 @@ import { isNullOrUndefined } from 'src/app/shared/utils/helper.util';
 export class LoginComponent implements OnInit {
 
   readonly users$ = this.apiService.getUsers$().pipe(
-    tap(users => this.users = users)
+    tap(users => this.users = users),
+
+    // TODO: remove auto mate
+    tap(_ => this.login('1'))
   );
   private users: User[] = [];
 
