@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     tap(users => this.users = users),
 
     // TODO: remove auto mate
-    tap(_ => this.login('1'))
+    // tap(_ => this.login('1'))
   );
   private users: User[] = [];
 
