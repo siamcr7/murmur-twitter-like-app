@@ -1,3 +1,5 @@
 export interface Post {
-  Id: number;
+  Id?: number;
+  Content: string;
+  UserId: number; 
 }

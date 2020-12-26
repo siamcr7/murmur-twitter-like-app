@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
+import { FollowUsersComponent } from './components/follow-users/follow-users.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    TimelineComponent
+    TimelineComponent,
+    FollowUsersComponent
   ],
   imports: [
     BrowserModule,

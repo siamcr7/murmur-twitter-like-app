@@ -15,11 +15,7 @@ export class TimelineComponent implements OnInit {
   }
 
   post(content: string): void {
-    const id = this.authService.getLoggedInUserId();
-    if (id === undefined) {
-      throw new Error('Unauthorized access!');
-    }
-
+    const id = this.authService.getEnsuredLoggedInUserId();
     this.apiService.addPost$({ content, userId: id }).subscribe();
   }
 }
