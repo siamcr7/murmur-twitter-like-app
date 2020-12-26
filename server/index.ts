@@ -38,7 +38,7 @@ connection.connect();
 const router = express.Router();         // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/user', (req, res) => {
+router.get('/users', (req, res) => {
 
   connection.query('SELECT * FROM Users', (err, rows, fields) => {
     if (err) {
@@ -50,11 +50,7 @@ router.get('/user', (req, res) => {
     //   error: `Internal Server Error`
     // });
 
-    res.status(200).json({
-      // message: "hooray! welcome to our api!",
-      // rows: toCamel(rows)
-      Rows: rows
-    });
+    res.status(200).json(rows);
 
     // console.log('The solution is: ', rows[0].solution);
   });

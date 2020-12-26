@@ -20,5 +20,8 @@ bin-release/
 # Node Modules
 *node_modules*
 
+# VS Code Settings
+*.vscode*
+
 #Server Build
 server/build*
