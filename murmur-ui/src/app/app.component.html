@@ -1,4 +1,8 @@
 <div *ngIf="(isLoggedIn$ | async) === true">
   Hello, {{(currentLoggedInUserName$ | async)}}!
+  ||
+  <a routerLink="/timeline">Timeline</a>
+  ||
+  <a routerLink="/follow-users">Follow Users</a>
 </div>
 <router-outlet></router-outlet>

@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Status</th>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let user of (usersWithFollowingInfo$ | async)">
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>
+        <button (click)="follow(user.id)" *ngIf="user.isFollowing === false">Follow</button>
+        <button (click)="unfollow(user.id)" *ngIf="user.isFollowing === true">Unfollow</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

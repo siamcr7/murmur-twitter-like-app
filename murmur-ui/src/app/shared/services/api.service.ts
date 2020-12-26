@@ -21,9 +21,27 @@ export class ApiService {
     );
   }
 
+  getFollowingUserIds$(userId: number): Observable<number[]> {
+    return this.httpClient.get<number[]>(`${this.API_URL}/followers/${userId}`).pipe(
+      tap(res => console.log('Get Following User Ids: ', res))
+    );
+  }
+
   addPost$(post: Post): Observable<{}> {
     return this.httpClient.post<{}>(`${this.API_URL}/posts`, post).pipe(
       tap(_ => console.log('Added Post'))
+    );
+  }
+
+  addFollower$(userId: number, followingUserId: number): Observable<{}> {
+    return this.httpClient.post<{}>(`${this.API_URL}/followers`, { userId, followingUserId }).pipe(
+      tap(_ => console.log('Added Follower'))
+    );
+  }
+
+  deleteFollower$(userId: number, followingUserId: number): Observable<{}> {
+    return this.httpClient.delete<{}>(`${this.API_URL}/followers/${userId}/${followingUserId}`).pipe(
+      tap(_ => console.log('Deleted Follower'))
     );
   }
 }

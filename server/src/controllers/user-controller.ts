@@ -8,22 +8,10 @@ export class UserController extends ControllerBase {
   }
 
   getUsers(res: core.Response) {
-    this.connection.query("SELECT * FROM Users", (err, rows) => {
-      if (err) {
-        res.status(500).json();
-      } else {
-        res.status(200).json(rows);
-      }
-    });
+    this.connection.query("SELECT * FROM Users", (err, rows) => this.sendResponse(err, rows, res));
   }
 
   addUser(res: core.Response) {
-    this.connection.query("SELECT * FROM Users", (err, rows) => {
-      if (err) {
-        res.status(500).json();
-      } else {
-        res.status(200).json(rows);
-      }
-    });
+    this.connection.query("SELECT * FROM Users", (err, rows) => this.sendResponse(err, rows, res));
   }
 }

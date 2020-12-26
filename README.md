@@ -17,6 +17,6 @@ Please implement web application which is able to show murmur(=tweet) by user. (
 * Javascript
 
 ### Directory structure
-- /client -> Angular(Client)
+- /murmur-ui -> Angular(Client)
 - /server -> Express(Server)
 - /db -> MySQL(DB)

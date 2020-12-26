@@ -23,7 +23,11 @@ export class AuthService {
     this.isLoggedInBehaviorSubject.next(true);
   }
 
-  getLoggedInUserId(): number | undefined {
-    return this.currentUserBehaviorSubject.getValue()?.id;
+  getEnsuredLoggedInUserId(): number {
+    const id = this.currentUserBehaviorSubject.getValue()?.id;
+    if (id === undefined) {
+      throw new Error('Unauthorized access!');
+    }
+    return id;
   }
 }

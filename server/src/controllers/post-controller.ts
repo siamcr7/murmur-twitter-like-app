@@ -1,6 +1,7 @@
 import { ControllerBase } from "./controller-base";
 import * as core from "express-serve-static-core";
 import { Connection } from "mysql";
+import { Post } from "../models/post";
 
 export class PostController extends ControllerBase {
   constructor(protected connection: Connection) {
@@ -8,13 +9,14 @@ export class PostController extends ControllerBase {
   }
 
   addPost(req: core.Request, res: core.Response) {
-    // console.log('See Body: ', req.body);
-    this.connection.query("INSERT INTO POSTS SET ?", req.body, (err, rows) => {
-      if (err) {
-        res.status(500).json();
-      } else {
-        res.status(200).json({});
-      }
-    });
+    const post: Post = {
+      Content: req.body.content,
+      UserId: req.body.userId
+    };
+
+    this.connection.query({
+      sql: "INSERT INTO POSTS SET ?",
+      values: [post]
+    }, (err, rows) => this.sendResponse(err, {}, res));
   }
 }
