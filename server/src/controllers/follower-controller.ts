@@ -9,28 +9,40 @@ export class FollowerController extends ControllerBase {
   }
 
   getFollowersByUserId(userId: number, res: core.Response) {
-    this.connection.query({
-      sql: "SELECT DISTINCT followingUserId FROM Followers WHERE userId = ?",
-      values: [userId]
-    }, (err, rows) => this.sendResponse(err, (rows as any[]).map(row => row.followingUserId), res));
+    this.connection.query(
+      {
+        sql: "SELECT DISTINCT followingUserId FROM Followers WHERE userId = ?",
+        values: [userId],
+      },
+      (err, rows) =>
+        this.sendResponse(
+          err,
+          (rows as any[]).map((row) => row.followingUserId),
+          res
+        )
+    );
   }
 
   addFollower(req: core.Request, res: core.Response) {
     const follower: Follower = {
       FollowingUserId: req.body.followingUserId,
-      UserId: req.body.userId
+      UserId: req.body.userId,
     };
 
     this.connection.query({
-      sql: "INSERT INTO Followers SET ?",
-      values: [follower]
-    }, (err, rows) => this.sendResponse(err, {}, res));
+        sql: "INSERT INTO Followers SET ?",
+        values: [follower],
+      }, 
+      (err, rows) => this.sendResponse(err, {}, res)
+    );
   }
 
   deleteFollower(userId: number, followingUserId: number, res: core.Response) {
     this.connection.query({
-      sql: "DELETE FROM Followers WHERE UserId = ? AND FollowingUserId = ?",
-      values: [userId, followingUserId]
-    }, (err, rows) => this.sendResponse(err, {}, res));
+        sql: "DELETE FROM Followers WHERE UserId = ? AND FollowingUserId = ?",
+        values: [userId, followingUserId],
+      },
+      (err, rows) => this.sendResponse(err, {}, res)
+    );
   }
 }

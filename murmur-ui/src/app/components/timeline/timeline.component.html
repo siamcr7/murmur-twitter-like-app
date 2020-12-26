@@ -1,7 +1,10 @@
 <div>
   <div>Write Something:</div>
   <div>
-    <textarea #txtArea name="" id="" cols="30" rows="10"></textarea>
+    <textarea #txtArea name="" id="" cols="50" rows="5"></textarea>
   </div>
   <button (click)="post(txtArea.value)">Post</button>
 </div>
+
+<app-murmur-tweet [murmurTweets]="murmurTweetDetails$ | async" (deletePost)="deletePost($event)"
+  (likePost)="likePost($event)" (unlikePost)="unlikePost($event)"></app-murmur-tweet>

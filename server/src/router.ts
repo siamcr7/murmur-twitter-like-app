@@ -23,6 +23,26 @@ export class Router {
     this.router.post('/posts', (req, res) => {
       postController.addPost(req, res);
     });
+
+    this.router.get('/posts/:userId', (req, res) => {
+      postController.getPostsByUserId(+(req.params.userId), res);
+    });
+
+    this.router.get('/posts/liked/:userId', (req, res) => {
+      postController.getLikedPostsByUserId(+(req.params.userId), res);
+    });
+
+    this.router.post('/posts/like', (req, res) => {
+      postController.addLike(req, res);
+    });
+
+    this.router.delete('/posts/like/:userId/:postId', (req, res) => {
+      postController.deleteLike(+(req.params.userId), +(req.params.postId), res);
+    });
+
+    this.router.delete('/posts/:postId', (req, res) => {
+      postController.deletePost(+(req.params.postId), res);
+    });
   }
 
   private followerRoutes() {

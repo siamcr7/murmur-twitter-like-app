@@ -8,10 +8,14 @@ export class UserController extends ControllerBase {
   }
 
   getUsers(res: core.Response) {
-    this.connection.query("SELECT * FROM Users", (err, rows) => this.sendResponse(err, rows, res));
+    this.connection.query("SELECT * FROM Users", (err, rows) =>
+      this.sendResponse(err, rows, res)
+    );
   }
 
   addUser(res: core.Response) {
-    this.connection.query("SELECT * FROM Users", (err, rows) => this.sendResponse(err, rows, res));
+    this.connection.query("SELECT * FROM Users", (err, rows) =>
+      this.sendResponse(err, rows, res)
+    );
   }
 }
