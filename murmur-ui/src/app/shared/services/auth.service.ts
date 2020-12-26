@@ -18,9 +18,9 @@ export class AuthService {
 
   constructor() {}
 
-  setLoggedInUser(user: User): void {
+  setLoggedInUser(user: User | null): void {
     this.currentUserBehaviorSubject.next(user);
-    this.isLoggedInBehaviorSubject.next(true);
+    this.isLoggedInBehaviorSubject.next(user !== null);
   }
 
   getEnsuredLoggedInUserId(): number {
