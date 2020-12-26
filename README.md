@@ -1,7 +1,7 @@
 # murmur-twitter-like-app
 
 ## Theme
-Please implement web application which is able to show murmur(=tweet) by user. (this application is similar to Twitter)
+Implemented web application which is able to show murmur(=tweet) by user. (this application is similar to Twitter)
 
 ## Specifications
 * The user can follow other users.
