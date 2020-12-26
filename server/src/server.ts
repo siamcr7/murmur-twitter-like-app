@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mysql from "mysql";
+import { Router } from "./router";
 
 // TODO: move the hard-coded values to appsettings.json file
 
@@ -9,9 +10,12 @@ const PORT = 8000;
 
 // cors setting
 app.use((req, res, next) => {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
- next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
 
 // configure app to use bodyParser()
@@ -22,42 +26,41 @@ app.use(bodyParser.json());
 // ======================================
 // DB Connection
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'rootpass',
-  database: 'murmur_schema',
+  host: "localhost",
+  user: "root",
+  password: "rootpass",
+  database: "murmur_schema",
   port: 3306,
   insecureAuth: true,
 });
 
 connection.connect();
 
-
 // ROUTES FOR OUR API
 // =============================================================================
-const router = express.Router();         // get an instance of the express Router
+const router = express.Router(); // get an instance of the express Router
+const routerClass = new Router(router, connection);
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/users', (req, res) => {
+// router.get('/users', (req, res) => {
 
-  connection.query('SELECT * FROM Users', (err, rows, fields) => {
-    if (err) {
-      // console.log('See Err ', err);
-      // throw err;
-    }
+//   connection.query('SELECT * FROM Users', (err, rows, fields) => {
+//     if (err) {
+//       // console.log('See Err ', err);
+//       // throw err;
+//     }
 
-    // res.status(500).send({
-    //   error: `Internal Server Error`
-    // });
+//     // res.status(500).send({
+//     //   error: `Internal Server Error`
+//     // });
 
-    res.status(200).json(rows);
+//     res.status(200).json(rows);
 
-    // console.log('The solution is: ', rows[0].solution);
-  });
+//     // console.log('The solution is: ', rows[0].solution);
+//   });
 
-
-  // res.json({ message: 'hooray! welcome to our api!' });
-});
+//   // res.json({ message: 'hooray! welcome to our api!' });
+// });
 
 // more routes for our API will happen here
 
@@ -80,15 +83,14 @@ app.use((req, res, next) => {
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', router);
+app.use("/api", router);
 
 // START THE SERVER
 // =============================================================================
 app.listen(PORT);
 
-
 // tslint:disable-next-line: no-console
-console.log('Magic happens on port ' + PORT);
+console.log("Magic happens on port " + PORT);
 
 // TODO: move to another file
 function toCamel(o: any) {
@@ -98,23 +100,28 @@ function toCamel(o: any) {
   let value;
   if (o instanceof Array) {
     return o.map((innerValue) => {
-        if (typeof innerValue === "object") {
-          innerValue = toCamel(innerValue)
-        }
-        return innerValue
-    })
+      if (typeof innerValue === "object") {
+        innerValue = toCamel(innerValue);
+      }
+      return innerValue;
+    });
   } else {
-    newO = {}
+    newO = {};
     for (origKey in o) {
       if (o.hasOwnProperty(origKey)) {
-        newKey = (origKey.charAt(0).toLowerCase() + origKey.slice(1) || origKey).toString()
-        value = o[origKey]
-        if (value instanceof Array || (value !== null && value.constructor === Object)) {
-          value = toCamel(value)
+        newKey = (
+          origKey.charAt(0).toLowerCase() + origKey.slice(1) || origKey
+        ).toString();
+        value = o[origKey];
+        if (
+          value instanceof Array ||
+          (value !== null && value.constructor === Object)
+        ) {
+          value = toCamel(value);
         }
-        newO[newKey] = value
+        newO[newKey] = value;
       }
     }
   }
-  return newO
+  return newO;
 }
