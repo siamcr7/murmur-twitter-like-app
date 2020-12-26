@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthService } from './shared/services/auth.service';
 
@@ -15,6 +16,11 @@ export class AppComponent {
   );
   readonly isLoggedIn$ = this.authService.isLoggedIn$;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
+  logout(): void {
+    this.authService.setLoggedInUser(null);
+    this.router.navigate(['login']);
   }
 }
