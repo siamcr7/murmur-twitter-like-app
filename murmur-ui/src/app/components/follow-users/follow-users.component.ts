@@ -46,11 +46,15 @@ export class FollowUsersComponent implements OnInit {
 
   follow(id: number): void {
     const loggedInUserId = this.authService.getEnsuredLoggedInUserId();
-    this.apiService.addFollower$(loggedInUserId, id).subscribe(() => this.trigger$.next(!this.trigger$.getValue()));
+    this.apiService.addFollower$(loggedInUserId, id).subscribe(() => this.triggerChange());
   }
 
   unfollow(id: number): void {
     const loggedInUserId = this.authService.getEnsuredLoggedInUserId();
-    this.apiService.deleteFollower$(loggedInUserId, id).subscribe(() => this.trigger$.next(!this.trigger$.getValue()));
+    this.apiService.deleteFollower$(loggedInUserId, id).subscribe(() => this.triggerChange());
+  }
+
+  private triggerChange(): void {
+    this.trigger$.next(!this.trigger$.getValue());
   }
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { MurmurTweetDetails } from '../models/murmur-tweet-details.model';
 import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 
@@ -27,9 +28,27 @@ export class ApiService {
     );
   }
 
+  getPosts$(userId: number): Observable<MurmurTweetDetails[]> {
+    return this.httpClient.get<MurmurTweetDetails[]>(`${this.API_URL}/posts/${userId}`).pipe(
+      tap(res => console.log('Get Posts: ', res))
+    );
+  }
+
+  getLikedPosts$(userId: number): Observable<number[]> {
+    return this.httpClient.get<number[]>(`${this.API_URL}/posts/liked/${userId}`).pipe(
+      tap(res => console.log('Get Liked Posts: ', res))
+    );
+  }
+
   addPost$(post: Post): Observable<{}> {
     return this.httpClient.post<{}>(`${this.API_URL}/posts`, post).pipe(
       tap(_ => console.log('Added Post'))
+    );
+  }
+
+  addPostLike$(userId: number, postId: number): Observable<{}> {
+    return this.httpClient.post<{}>(`${this.API_URL}/posts/like`, { userId, postId }).pipe(
+      tap(_ => console.log('Liked Post'))
     );
   }
 
@@ -42,6 +61,18 @@ export class ApiService {
   deleteFollower$(userId: number, followingUserId: number): Observable<{}> {
     return this.httpClient.delete<{}>(`${this.API_URL}/followers/${userId}/${followingUserId}`).pipe(
       tap(_ => console.log('Deleted Follower'))
+    );
+  }
+
+  deletePostLike$(userId: number, postId: number): Observable<{}> {
+    return this.httpClient.delete<{}>(`${this.API_URL}/posts/like/${userId}/${postId}`).pipe(
+      tap(_ => console.log('UnLiked Post'))
+    );
+  }
+
+  deletePost$(postId: number): Observable<{}> {
+    return this.httpClient.delete<{}>(`${this.API_URL}/posts/${postId}`).pipe(
+      tap(_ => console.log('Deleted Post'))
     );
   }
 }
