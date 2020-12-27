@@ -1,0 +1,6 @@
+<h1>{{userDisplayName$ | async}}</h1>
+
+<h2>Following Count: {{followingCount$ | async}}</h2>
+<h2>Follower Count: {{followerCount$ | async}}</h2>
+
+<app-murmur-tweets-control [userId]="userId$ | async" [onlyForSelf]="true"></app-murmur-tweets-control>

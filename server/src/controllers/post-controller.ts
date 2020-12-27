@@ -23,21 +23,32 @@ export class PostController extends ControllerBase {
     );
   }
 
-  getPostsByUserId(userId: number, res: core.Response) {
+  getPostsByUserId(userId: number, onlySelf: boolean, res: core.Response) {
+    let query = `
+      SELECT Id, Content, UserId, LikeCount
+      FROM Posts p
+      left outer join
+      (
+        select PostId, Count(UserId) as LikeCount from userpostlike u
+        group by PostId
+      ) upl on
+      p.Id = upl.PostId
+    `;
+
+    if (onlySelf === true) {
+      query += `
+        WHERE p.UserId = ${userId}
+      `;
+    } else {
+      query += `
+        WHERE p.UserId IN (
+          SELECT DISTINCT followingUserId FROM Followers WHERE userId = ${userId}
+        ) OR p.UserId = ${userId}
+      `;
+    }
+
     this.connection.query({
-      sql: `
-        SELECT Id, Content, UserId, LikeCount
-        FROM Posts p
-        left outer join
-        (
-          select PostId, Count(UserId) as LikeCount from userpostlike u
-          group by PostId
-        ) upl on
-        p.Id = upl.PostId
-                WHERE p.UserId IN (
-                  SELECT DISTINCT followingUserId FROM Followers WHERE userId = ${userId}
-                ) OR p.UserId = ${userId}
-      `,
+      sql: query,
       values: [userId],
     }, (err, rows) => this.sendResponse(err, rows, res)
     );

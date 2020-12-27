@@ -39,43 +39,18 @@ connection.connect();
 const router = express.Router(); // get an instance of the express Router
 const routerClass = new Router(router, connection);
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-// router.get('/users', (req, res) => {
 
-//   connection.query('SELECT * FROM Users', (err, rows, fields) => {
-//     if (err) {
-//       // console.log('See Err ', err);
-//       // throw err;
-//     }
-
-//     // res.status(500).send({
-//     //   error: `Internal Server Error`
-//     // });
-
-//     res.status(200).json(rows);
-
-//     // console.log('The solution is: ', rows[0].solution);
-//   });
-
-//   // res.json({ message: 'hooray! welcome to our api!' });
-// });
 
 // more routes for our API will happen here
 
 // TODO: move this to a middle ware file toCamel
 app.use((req, res, next) => {
-  // res = toCamel(res);
-  // console.log('See :', res.status(200).json);
-
   const oldSend = res.json;
   res.json = (data) => {
-    // console.log('See :', data); // do something with the data
     const convertData = toCamel(data);
-    // console.log('See Converted :', convertData); // do something with the data
     res.json = oldSend; // set function back to avoid the 'double-send' loop
     return res.json(convertData); // just call as normal with data
   };
-
   next();
 });
 

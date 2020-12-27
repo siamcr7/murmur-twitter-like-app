@@ -13,9 +13,16 @@ export class UserController extends ControllerBase {
     );
   }
 
-  addUser(res: core.Response) {
-    this.connection.query("SELECT * FROM Users", (err, rows) =>
-      this.sendResponse(err, rows, res)
+  addUser(req: core.Request, res: core.Response) {
+    const user  = {
+      Name: req.body.name,
+    };
+
+    this.connection.query({
+        sql: "INSERT INTO USERS SET ?",
+        values: [user],
+      },
+      (err, rows) => this.sendResponse(err, {}, res)
     );
   }
 }

@@ -1,5 +1,5 @@
 <div *ngIf="(isLoggedIn$ | async) === true">
-  Hello, {{(currentLoggedInUserName$ | async)}}!
+  Hello, <a [routerLink]="'/user-profile/' + loggedInUserId">{{(currentLoggedInUserName$ | async)}}</a>!
   ||
   <a routerLink="/timeline">Timeline</a>
   ||

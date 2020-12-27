@@ -10,17 +10,15 @@ import { MurmurTweetsStateService } from 'src/app/shared/services/murmur-tweets-
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.css'],
-  providers: [ MurmurTweetsStateService ]
 })
 export class TimelineComponent implements OnInit {
 
-  totalMurmurs$ = this.murmurStateService.totalMurmurs$;
-  readonly murmurTweetDetails$: Observable<MurmurTweetDetails[]> = this.murmurStateService.murmurTweetDetails$;
+  readonly loggedInUserId = this.authService.getEnsuredLoggedInUserId();
 
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
-    @Self() private murmurStateService: MurmurTweetsStateService) { }
+    private murmurStateService: MurmurTweetsStateService) { }
 
   ngOnInit(): void {
   }
@@ -31,23 +29,5 @@ export class TimelineComponent implements OnInit {
     }
     const id = this.authService.getEnsuredLoggedInUserId();
     this.apiService.addPost$({ content, userId: id }).subscribe(() => this.murmurStateService.triggerChange());
-  }
-
-  deletePost(postId: any): void {
-    this.apiService.deletePost$(+postId).subscribe(() => this.murmurStateService.triggerChange());
-  }
-
-  likePost(postId: any): void {
-    this.apiService.addPostLike$(this.authService.getEnsuredLoggedInUserId(), +postId)
-      .subscribe(() => this.murmurStateService.triggerChange());
-  }
-
-  unlikePost(postId: any): void {
-    this.apiService.deletePostLike$(this.authService.getEnsuredLoggedInUserId(), +postId)
-      .subscribe(() => this.murmurStateService.triggerChange());
-  }
-
-  pagination(skip: any): void {
-    this.murmurStateService.pagination(skip);
   }
 }

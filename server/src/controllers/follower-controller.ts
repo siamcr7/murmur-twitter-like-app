@@ -8,7 +8,7 @@ export class FollowerController extends ControllerBase {
     super(connection);
   }
 
-  getFollowersByUserId(userId: number, res: core.Response) {
+  getFollowingUserIdsByUserId(userId: number, res: core.Response) {
     this.connection.query(
       {
         sql: "SELECT DISTINCT followingUserId FROM Followers WHERE userId = ?",
@@ -18,6 +18,21 @@ export class FollowerController extends ControllerBase {
         this.sendResponse(
           err,
           (rows as any[]).map((row) => row.followingUserId),
+          res
+        )
+    );
+  }
+
+  getFollowersByUserId(userId: number, res: core.Response) {
+    this.connection.query(
+      {
+        sql: "SELECT DISTINCT userId FROM Followers WHERE followingUserId = ?",
+        values: [userId],
+      },
+      (err, rows) =>
+        this.sendResponse(
+          err,
+          (rows as any[]).map((row) => row.userId),
           res
         )
     );
