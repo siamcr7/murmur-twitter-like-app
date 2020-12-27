@@ -11,7 +11,7 @@ export class MurmurTweetComponent implements OnChanges {
 
   pageNumbers: number[] = [];
   @Input() murmurTweets: MurmurTweetDetails[] | null = [];
-  @Input() totalMurmurs = 0;
+  @Input() totalMurmurs: number | null = 0;
 
   @Output() likePost = new EventEmitter<number>();
   @Output() unlikePost = new EventEmitter<number>();
@@ -21,17 +21,18 @@ export class MurmurTweetComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(): void {
-    let tempPageNumber = Math.floor(this.totalMurmurs / 10);
-    if (this.totalMurmurs % 10 !== 0) {
-      tempPageNumber++;
-    }
+    let tempPageNumber = 0;
+    if (this.totalMurmurs !== null) {
+      tempPageNumber = Math.floor(this.totalMurmurs / 10);
+      if (this.totalMurmurs % 10 !== 0) {
+        tempPageNumber++;
+      }
 
-    this.pageNumbers = [];
-    for (let index = 0; index < tempPageNumber; index++) {
-      this.pageNumbers.push(index);
+      this.pageNumbers = [];
+      for (let index = 0; index < tempPageNumber; index++) {
+        this.pageNumbers.push(index);
+      }
     }
-
-    console.log('See numbers: ', this.pageNumbers);
   }
 
 }
