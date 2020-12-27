@@ -21,3 +21,7 @@
 
   <div *ngIf="murmur.canDelete"><button (click)="deletePost.emit(murmur.id)">Delete</button></div>
 </div>
+
+<div>
+  <a href="javascript:void(0)" *ngFor="let page of pageNumbers" (click)="pagination.emit(page * 10)">Page {{page + 1}} || </a>
+</div>

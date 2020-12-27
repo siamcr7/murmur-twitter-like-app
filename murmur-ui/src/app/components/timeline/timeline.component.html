@@ -6,5 +6,5 @@
   <button (click)="post(txtArea.value)">Post</button>
 </div>
 
-<app-murmur-tweet [murmurTweets]="murmurTweetDetails$ | async" (deletePost)="deletePost($event)"
-  (likePost)="likePost($event)" (unlikePost)="unlikePost($event)"></app-murmur-tweet>
+<app-murmur-tweet [totalMurmurs]="totalMurmurs$ | async" [murmurTweets]="murmurTweetDetails$ | async" (deletePost)="deletePost($event)"
+  (likePost)="likePost($event)" (unlikePost)="unlikePost($event)" (pagination)="pagination($event)"></app-murmur-tweet>
