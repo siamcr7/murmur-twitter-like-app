@@ -23,13 +23,19 @@ export class ApiService {
   }
 
   getFollowingUserIds$(userId: number): Observable<number[]> {
-    return this.httpClient.get<number[]>(`${this.API_URL}/followers/${userId}`).pipe(
+    return this.httpClient.get<number[]>(`${this.API_URL}/followers/followings/${userId}`).pipe(
       tap(res => console.log('Get Following User Ids: ', res))
     );
   }
 
-  getPosts$(userId: number): Observable<MurmurTweetDetails[]> {
-    return this.httpClient.get<MurmurTweetDetails[]>(`${this.API_URL}/posts/${userId}`).pipe(
+  getFollowersUserIds$(userId: number): Observable<number[]> {
+    return this.httpClient.get<number[]>(`${this.API_URL}/followers/followers/${userId}`).pipe(
+      tap(res => console.log('Get Followers User Ids: ', res))
+    );
+  }
+
+  getPosts$(userId: number, onlySelf: boolean): Observable<MurmurTweetDetails[]> {
+    return this.httpClient.get<MurmurTweetDetails[]>(`${this.API_URL}/posts/${userId}/${onlySelf}`).pipe(
       tap(res => console.log('Get Posts: ', res))
     );
   }
@@ -55,6 +61,12 @@ export class ApiService {
   addFollower$(userId: number, followingUserId: number): Observable<{}> {
     return this.httpClient.post<{}>(`${this.API_URL}/followers`, { userId, followingUserId }).pipe(
       tap(_ => console.log('Added Follower'))
+    );
+  }
+
+  addUser$(name: string): Observable<{}> {
+    return this.httpClient.post<{}>(`${this.API_URL}/users`, { name }).pipe(
+      tap(_ => console.log('Added User'))
     );
   }
 

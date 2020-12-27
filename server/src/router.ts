@@ -16,6 +16,10 @@ export class Router {
     this.router.get("/users", (req, res) => {
       userController.getUsers(res);
     });
+
+    this.router.post('/users', (req, res) => {
+      userController.addUser(req, res);
+    });
   }
 
   private postRoutes() {
@@ -24,13 +28,14 @@ export class Router {
       postController.addPost(req, res);
     });
 
-    this.router.get('/posts/:userId', (req, res) => {
-      postController.getPostsByUserId(+(req.params.userId), res);
-    });
-
     this.router.get('/posts/liked/:userId', (req, res) => {
       postController.getLikedPostsByUserId(+(req.params.userId), res);
     });
+
+    this.router.get('/posts/:userId/:onlySelf', (req, res) => {
+      postController.getPostsByUserId(+(req.params.userId), ((req.params.onlySelf) as string) === 'true', res);
+    });
+
 
     this.router.post('/posts/like', (req, res) => {
       postController.addLike(req, res);
@@ -47,8 +52,12 @@ export class Router {
 
   private followerRoutes() {
     const followerController = new FollowerController(this.connection);
-    this.router.get('/followers/:userId', (req, res) => {
+    this.router.get('/followers/followers/:userId', (req, res) => {
       followerController.getFollowersByUserId(+(req.params.userId), res);
+    });
+
+    this.router.get('/followers/followings/:userId', (req, res) => {
+      followerController.getFollowingUserIdsByUserId(+(req.params.userId), res);
     });
 
     this.router.post('/followers', (req, res) => {

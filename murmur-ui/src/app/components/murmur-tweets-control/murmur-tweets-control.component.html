@@ -1,0 +1,3 @@
+<app-murmur-tweet [totalMurmurs]="totalMurmurs$ | async" [murmurTweets]="murmurTweetDetails$ | async"
+  (deletePost)="deletePost($event)" (likePost)="likePost($event)" (unlikePost)="unlikePost($event)"
+  (pagination)="pagination($event)"></app-murmur-tweet>
