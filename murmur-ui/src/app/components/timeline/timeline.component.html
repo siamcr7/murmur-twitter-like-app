@@ -1,0 +1,9 @@
+<div>
+  <div>Write Something:</div>
+  <div>
+    <textarea #txtArea name="" id="" cols="50" rows="5"></textarea>
+  </div>
+  <button (click)="post(txtArea.value)">Post</button>
+</div>
+
+<app-murmur-tweets-control [userId]="loggedInUserId" [onlyForSelf]="false"></app-murmur-tweets-control>

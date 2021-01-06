@@ -1,0 +1,27 @@
+<h2>Murmur Tweets</h2>
+<div *ngFor="let murmur of murmurTweets" style="padding-bottom: 10px; border: 4px solid blue;">
+
+  <div>
+    <b>Murmur By: </b> <a [routerLink]="'/user-profile/' + murmur.userId">{{murmur.userDisplayName}}</a>
+  </div>
+
+  <b>Murmur:</b>
+  <div>
+    <p>{{murmur.content}}</p>
+  </div>
+
+  <div>
+    <b>Like Count: </b> {{murmur.likeCount}}
+  </div>
+
+  <div *ngIf="murmur.canDelete === false">
+    <td *ngIf="murmur.isLiked"><b>Liked</b> || <button (click)="unlikePost.emit(murmur.id)">Unlike</button></td>
+    <td *ngIf="!murmur.isLiked"><b>Unliked</b> || <button (click)="likePost.emit(murmur.id)">Like</button></td>
+  </div>
+
+  <div *ngIf="murmur.canDelete"><button (click)="deletePost.emit(murmur.id)">Delete</button></div>
+</div>
+
+<div>
+  <a href="javascript:void(0)" *ngFor="let page of pageNumbers" (click)="pagination.emit(page * 10)">Page {{page + 1}} || </a>
+</div>
